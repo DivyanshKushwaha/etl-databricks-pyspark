@@ -1,11 +1,15 @@
 # Advanced ETL using Azure + Databricks + Pyspark
 
+**Author:** [Divyansh Kushwaha](https://github.com/DivyanshKushwaha)  
+**Repository:** [https://github.com/DivyanshKushwaha/etl-databricks-pyspark](https://github.com/DivyanshKushwaha/etl-databricks-pyspark)  
+**Last updated:** 30 June 2026
+
 ## Introduction
 This project aims to perform data transformation using Databricks `Pyspark` and `SparkSQL`. The data was mounted from an `Azure Data Lake Storage Gen2` and transformed within Databricks. The transformed data was then loaded back to the Datalake. This notebooks were then combined using `Azure Data Fractory`
 #### Data Flow project overview
-![Data_Factory_overview](https://user-images.githubusercontent.com/45521680/215343684-0259be55-e9d3-4e19-8f09-f5de9f1fd20e.png)
+![Data_Factory_overview](images/Data_Factory_overview.png)
 #### Lakehouse project overview
-![Data_Lakehouse](https://user-images.githubusercontent.com/45521680/215344008-2da6da03-76bd-420b-9bb4-8a8dced25bb5.png)
+![Data_Lakehouse](images/Lakehouse_image.png)
 
 ## Tools & Libraries
 * Databricks Pyspark
@@ -65,7 +69,7 @@ configs = {"fs.azure.account.auth.type": "OAuth",
 ```
 dbutils.fs.mount(
 source = "abfss://<container-name>@<storage-account-name>.dfs.core.windows.net/folder1",
-mount_point = "/mnt/flightdata",
+mount_point = "/mnt/Files/formula1/raw",
 extra_configs = configs)
 ```
 8. Now we can load the data from the MountPoint into a Dataframe and perform actions.
@@ -74,22 +78,21 @@ extra_configs = configs)
 ## How to mount data from Azure Data Lake Storage Gen2 to Databricks.  
 
 ### Used Azure Services
-<img width="739" alt="Screenshot 2023-01-29 at 11 14 32" src="https://user-images.githubusercontent.com/45521680/215344570-bf7415cb-0940-4848-a983-9d12bd687d00.png">
+![Azure Services](images/Data_Factory_components.png)
 
 ### Azure Data Factory 
 We can either connect the databricks instance to the DataFactory instance through AD or though a personalised acces token, which we can generate in Databricks and pass as an authentication method. 
 
-<img width="347" alt="Screenshot 2023-01-29 at 18 28 28" src="https://user-images.githubusercontent.com/45521680/215344532-2a6c4bb4-cf04-445c-b514-b70a369b243c.png">
-<img width="632" alt="Screenshot 2023-01-29 at 11 45 39" src="https://user-images.githubusercontent.com/45521680/215344561-c2461509-1648-491f-a417-76b8355c0543.png">
+![Data Factory Master Pipeline](images/Data_Factory_Master_pipeline.png)
+![Data Factory Components](images/Data_Factory_components.png)
 
 
 
 ### Potential project architecture (Big picture)
-<img width="508" alt="Screenshot 2023-01-25 at 14 14 10" src="https://user-images.githubusercontent.com/45521680/214684174-7fb3e321-588a-4808-8f46-af497fff6ebc.png">
+![Project Architecture](images/delta_lake_image.png)
 
 ### Incremetal load architecture
-![incremen<img width="604" alt="Screenshot 2023-01-29 at 17 04 17" src="https://user-images.githubusercontent.com/45521680/215344558-b368ee72-0734-4fdb-9fc8-80f3f9d76582.png">
-tal_load_pipeline](https://user-images.githubusercontent.com/45521680/215343729-7da58562-4b5f-47d9-a9ff-c44e17dbc46e.png)
+![Incremental Load Pipeline](images/incremental_load_pipeline.png)
 
 ### Databricks Architecture
-<img width="1390" alt="Screenshot 2023-01-25 at 13 28 10" src="https://user-images.githubusercontent.com/45521680/214684129-b83f23c8-ae6d-4cf7-942e-fea5fb152ef7.png">
+![Delta Lake Architecture](images/delta_lake_image.png)

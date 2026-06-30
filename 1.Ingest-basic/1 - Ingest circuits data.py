@@ -11,16 +11,16 @@
 
 #With secret/createScope
 # replace the aldsAccountName with your storage name. The storage name must be unique across all Azure. 
-aldsAccountName="formula1project2023"
+aldsAccountName="<your-storage-account-name>"
 adlsContainerName="raw"
 mountPoint="/mnt/Files/formula1/raw/"
 
 # COMMAND ----------
 
-clientSecret=dbutils.secrets.get(scope="formula1project", key="clientsecret")
-appId=dbutils.secrets.get(scope="formula1project",key="appId")
-tenantId=dbutils.secrets.get(scope="formula1project",key="tenantId")
-endpoint="https://login.microsoftonline.com/"+tenantId+"/oauth2/token",
+clientSecret=dbutils.secrets.get(scope="<your-secret-scope>", key="clientsecret")
+appId=dbutils.secrets.get(scope="<your-secret-scope>", key="appId")
+tenantId=dbutils.secrets.get(scope="<your-secret-scope>", key="tenantId")
+endpoint=f"https://login.microsoftonline.com/{tenantId}/oauth2/token"
 
 # COMMAND ----------
 
@@ -28,14 +28,14 @@ configs = {"fs.azure.account.auth.type": "OAuth",
        "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
        "fs.azure.account.oauth2.client.id": appId,
        "fs.azure.account.oauth2.client.secret": clientSecret,
-       "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/bac959ee-2787-4fc3-9798-7c830e543973/oauth2/token",
+       "fs.azure.account.oauth2.client.endpoint": endpoint,
        "fs.azure.createRemoteFileSystemDuringInitialization": "true"
         }
 
 # COMMAND ----------
 
 dbutils.fs.mount(
-source = "abfss://raw@formula1project2023.dfs.core.windows.net/raw",
+source = f"abfss://{adlsContainerName}@{aldsAccountName}.dfs.core.windows.net/{adlsContainerName}",
 mount_point = mountPoint,
 extra_configs = configs)
 
